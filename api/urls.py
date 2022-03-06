@@ -3,4 +3,4 @@ from .views import VideoViewSet, PlaylistViewSet
 
 router = routers.DefaultRouter()
 router.register(r'videos', VideoViewSet)
-router.register(r'playlist', PlaylistViewSet)
+router.register(r'playlists', PlaylistViewSet)

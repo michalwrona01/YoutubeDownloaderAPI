@@ -25,13 +25,14 @@ class Playlist(models.Model):
 
             super(Playlist, self).save(*args, **kwargs)
             for video_url in playlist.video_urls:
-                video = Video(url_video_yt=video_url, user=self.user, playlist=self)
+                video = Video(url_video_yt=video_url, title=None, thumbnail_url=None, user=self.user, playlist=self)
                 video.save()
 
 
 class Video(models.Model):
     title = models.CharField(max_length=255, null=True, blank=False)
     url_video_yt = models.URLField(null=False, blank=False)
+    thumbnail_url = models.URLField(null=False, blank=False)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -39,10 +40,15 @@ class Video(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        video = YouTube(url=self.url_video_yt)
+
         if not self.title:
-            self.title = YouTube(url=self.url_video_yt).title
-            print("Nadpisanie title")
-            super(Video, self).save(*args, **kwargs)
+            self.title = video.title
+        if not self.thumbnail_url:
+            self.thumbnail_url = video.thumbnail_url
+
+        super(Video, self).save(*args, **kwargs)
+
 
 
 
