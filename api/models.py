@@ -29,7 +29,7 @@ class Playlist(models.Model):
 class Video(models.Model):
     url_video_yt = models.URLField(null=False, blank=False)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, null=True)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         video_title = YouTube(url=self.url_video_yt).title
