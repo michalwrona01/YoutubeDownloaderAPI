@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,11 +20,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k1#-n!ccq#e$e8ux9l6iqjni(@tfywrm4hd0gzz@4xer7_p4fo'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    os.environ["IS_PRODUCTION"]
+except KeyError:
+    SECRET_KEY = 'django-insecure-+8&q$rr)e$t@)9=z)tt8mun#_qwx%83a)w+p1qf-0giz_c8_u#'
+    DEBUG = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    DEBUG = os.environ['DEBUG']
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ["DB_NAME"],
+            'USER': os.environ["DB_USERNAME"],
+            'PASSWORD': os.environ["DB_PASSWORD"],
+            'HOST': os.environ["DB_HOST"],
+            'PORT': os.environ["DB_PORT"],
+        }
+    }
 
 ALLOWED_HOSTS = ['*']
 
