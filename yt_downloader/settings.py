@@ -25,7 +25,7 @@ DEBUG = True
 try:
     os.environ["IS_PRODUCTION"]
 except KeyError:
-    SECRET_KEY = 'django-insecure-+8&q$rr)e$t@)9=z)tt8mun#_qwx%83a)w+p1qf-0giz_c8_u#'
+    SECRET_KEY = 'e$5m@pqk_h0_27zxzrdsmdj4e=#o68v)w=4d&zve0jj0)xf@i#'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
